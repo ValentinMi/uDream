@@ -1,5 +1,6 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 // Create model
 
@@ -42,6 +43,18 @@ const userSchema = new mongoose.Schema({
   strikeScore: Number,
   dreamPosts: Array
 });
+
+userSchema.methods.generateAuthToken = function() {
+  const token = jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      isAdmin: this.isAdmin
+    },
+    process.env.JWT_PRIVATE_KEY
+  );
+  return token;
+};
 
 const User = mongoose.model("User", userSchema);
 
