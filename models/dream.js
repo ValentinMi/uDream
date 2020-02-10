@@ -1,6 +1,6 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
-const { userSchema } = require("./User");
+const { userSchema } = require("./user");
 
 // Create model
 const Dream = mongoose.model(
