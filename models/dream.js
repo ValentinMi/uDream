@@ -21,16 +21,19 @@ const Dream = mongoose.model(
       required: false,
       maxlength: 1025
     },
-    author: new userSchema()
+    author: {
+      type: String,
+      required: true
+    }
   })
 );
 
 // Validation
 const validateDream = dream => {
   const schema = Joi.object({
-    creationDate: Joi.date().required(),
     note: Joi.number().required(),
-    comment: Joi.string().maxlength(1025)
+    comment: Joi.string().max(1025),
+    author: Joi.string().min(2)
   });
 
   return schema.validate(dream);

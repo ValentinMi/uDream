@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
+const config = require("config");
 
-module.exports = async function() {
+module.exports = function() {
   try {
-    await mongoose.connect(`mongodb://localhost:27017/uDream`, {
+    const db = config.get("db");
+    mongoose.connect(db, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
