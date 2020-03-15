@@ -1,4 +1,4 @@
 {
   "db": "mongodb://localhost:27017/uDream",
-  "requireAuth": true
+  "authRequired": true
 }

@@ -23,8 +23,7 @@ const Dream = mongoose.model(
     },
     author: {
       type: String,
-      required: true,
-      
+      required: true
     }
   })
 );
@@ -32,9 +31,9 @@ const Dream = mongoose.model(
 // Validation
 const validateDream = dream => {
   const schema = Joi.object({
-    creationDate: Joi.date().required(),
     note: Joi.number().required(),
-    comment: Joi.string().maxlength(1025)
+    comment: Joi.string().max(1025),
+    author: Joi.string().min(2)
   });
 
   return schema.validate(dream);
