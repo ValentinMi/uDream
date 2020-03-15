@@ -21,7 +21,11 @@ const Dream = mongoose.model(
       required: false,
       maxlength: 1025
     },
-    author: new userSchema()
+    author: {
+      type: String,
+      required: true,
+      
+    }
   })
 );
 
