@@ -2,15 +2,21 @@
   "name": "uDream",
   "version": "1.0.0",
   "description": "App for follow ours dreams",
-  "main": "index.js",
+  "main": "server.js",
   "author": "Valentin Misiaszek",
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "bcrypt": "^3.0.8",
+    "config": "^3.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "mongoose": "^5.8.11"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   }
 }
