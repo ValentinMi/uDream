@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const { User, validate } = require("../models/user");
+const admin = require("../middlewares/admin");
 const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const moment = require("moment");
@@ -89,7 +90,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE USER
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [admin], async (req, res) => {
   const user = await User.findOneAndDelete({ _id: req.params.id });
 
   if (!user) return res.status(404).send("User not found");
