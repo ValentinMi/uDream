@@ -41,7 +41,8 @@ const userSchema = new mongoose.Schema({
     maxlength: 255
   },
   strikeScore: Number,
-  dreamPosts: Array
+  dreamPosts: Array,
+  isAdmin: Boolean
 });
 
 userSchema.methods.generateAuthToken = function() {
@@ -89,6 +90,6 @@ const validateUser = user => {
   return schema.validate(user);
 };
 
-exports.userSchema = userSchema
+exports.userSchema = userSchema;
 exports.User = User;
 exports.validate = validateUser;
