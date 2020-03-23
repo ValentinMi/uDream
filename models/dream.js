@@ -1,6 +1,5 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
-const { userSchema } = require("./user");
 
 // Create model
 const Dream = mongoose.model(
@@ -24,6 +23,10 @@ const Dream = mongoose.model(
     author: {
       type: String,
       required: true
+    },
+    tags: {
+      type: Array,
+      maxlength: 100
     }
   })
 );
@@ -33,7 +36,8 @@ const validateDream = dream => {
   const schema = Joi.object({
     note: Joi.number().required(),
     comment: Joi.string().max(1025),
-    author: Joi.string().min(2)
+    author: Joi.string().min(2),
+    tags: Joi.array().max(100)
   });
 
   return schema.validate(dream);

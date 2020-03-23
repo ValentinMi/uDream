@@ -54,8 +54,8 @@ router.post("/", async (req, res) => {
     // Create JWT
     const token = newUser.generateAuthToken();
     res
-      .header("x-auth-token", token)
-      .header("access-control-expose-headers", "x-auth-token")
+      .header("uDream-auth-token", token)
+      .header("access-control-expose-headers", "uDream-auth-token")
       .send(
         _.pick(newUser, ["id", "firstname", "lastname", "email", "- password"])
       );
@@ -72,7 +72,7 @@ router.put("/:id", async (req, res) => {
 
   const salt = await bcrypt.genSalt(10);
 
-  const user = await User.findOneAndUpdate(
+  const user = await User.findByIdAndUpdate(
     req.params.id,
     {
       username: username,
