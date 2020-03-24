@@ -1,5 +1,6 @@
 const { User } = require("../../models/user");
 const { Dream } = require("../../models/dream");
+const { Tag } = require("../../models/tag");
 const request = require("supertest");
 
 describe("Auth middleware", () => {
@@ -8,6 +9,8 @@ describe("Auth middleware", () => {
   });
   afterEach(async () => {
     await Dream.deleteMany({});
+    await Tag.deleteMany({});
+    await User.deleteMany({});
     await server.close();
   });
 
@@ -18,15 +21,38 @@ describe("Auth middleware", () => {
       .post("/api/dreams")
       .set("uDream-auth-token", token)
       .send({
-        note: 10,
+        note: 5,
         description: "Dream description",
-        author: "AuthorId",
         tags: ["tag1", "tag2"]
       });
   };
 
-  beforeEach(() => {
-    token = new User().generateAuthToken();
+  const registerUser = () => {
+    return request(server)
+      .post("/api/users")
+      .send({
+        username: "Tester",
+        firstname: "Tester",
+        lastname: "Tester",
+        email: "test@test.com",
+        password: "passwordTest"
+      });
+  };
+
+  const getToken = () => {
+    return request(server)
+      .post("/api/auth")
+      .send({
+        email: "test@test.com",
+        password: "passwordTest"
+      });
+  };
+
+  beforeEach(async () => {
+    await registerUser();
+    user = await User.findOne({ username: "Tester" });
+    const { res } = await getToken();
+    token = res.text;
   });
 
   it("should return 401 if no token is provided", async () => {

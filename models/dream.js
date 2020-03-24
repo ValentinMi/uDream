@@ -41,8 +41,13 @@ const Dream = mongoose.model(
 // Validation
 const validateDream = dream => {
   const schema = Joi.object({
-    note: Joi.number().required(),
-    description: Joi.string().max(3000),
+    note: Joi.number()
+      .min(0)
+      .max(5)
+      .required(),
+    description: Joi.string()
+      .max(3000)
+      .required(),
     tags: Joi.array().max(100)
   });
 
