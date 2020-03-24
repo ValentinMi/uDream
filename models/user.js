@@ -1,6 +1,7 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const config = require("config");
 
 // Create model
 
@@ -52,9 +53,10 @@ userSchema.methods.generateAuthToken = function() {
     {
       _id: this._id,
       email: this.email,
+      username: this.username,
       isAdmin: this.isAdmin
     },
-    process.env.JWT_PRIVATE_KEY
+    process.env.JWT_PRIVATE_KEY || config.get("jwtPrivateKey")
   );
   return token;
 };
