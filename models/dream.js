@@ -21,7 +21,14 @@ const Dream = mongoose.model(
       maxlength: 3000
     },
     author: {
-      type: String,
+      type: new mongoose.Schema({
+        username: {
+          type: String,
+          minlength: 4,
+          maxlength: 25,
+          required: true
+        }
+      }),
       required: true
     },
     tags: {

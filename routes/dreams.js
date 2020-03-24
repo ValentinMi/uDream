@@ -68,18 +68,22 @@ router.post("/", [auth], async (req, res) => {
       }
     });
 
+    // Find current user
+    const user = await User.findById(req.user._id);
+
     // Create new dream
     const newDream = new Dream({
       creationDate: moment.now(),
       note,
       description,
-      author: req.user._id,
+      author: {
+        _id: user._id,
+        username: user.username
+      },
       tags
     });
 
     await newDream.save();
-
-    const user = await User.findById(req.user._id);
 
     // Add new dream to user dreams list
     await user.updateOne({ dreams: [...user.dreams, newDream._id] });
