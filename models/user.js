@@ -40,8 +40,10 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     maxlength: 255
   },
+  dreams: Array,
   strikeScore: Number,
-  dreamPosts: Array,
+  lastConnection: Date,
+  tags: Array,
   isAdmin: Boolean
 });
 
