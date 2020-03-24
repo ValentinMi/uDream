@@ -1,13 +1,12 @@
 const Joi = require("@hapi/joi");
 const bcrypt = require("bcrypt");
-const _ = require("bcrypt");
+const moment = require("moment");
 const { User } = require("../models/user");
 const router = require("express").Router();
 
 // AUTH POST
 router.post("/", async (req, res) => {
   try {
-    debugger;
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     debugger;
@@ -20,6 +19,9 @@ router.post("/", async (req, res) => {
 
     if (!user || !validPassword)
       return res.status(400).send("Invalid email or password");
+
+    // Update last connection date
+    await user.updateOne({ lastConnection: moment.now() });
 
     const token = user.generateAuthToken();
     res.send(token);
