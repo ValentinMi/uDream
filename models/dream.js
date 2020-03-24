@@ -15,10 +15,10 @@ const Dream = mongoose.model(
       min: 0,
       max: 5
     },
-    comment: {
+    description: {
       type: String,
       required: false,
-      maxlength: 1025
+      maxlength: 3000
     },
     author: {
       type: String,
@@ -35,8 +35,7 @@ const Dream = mongoose.model(
 const validateDream = dream => {
   const schema = Joi.object({
     note: Joi.number().required(),
-    comment: Joi.string().max(1025),
-    author: Joi.string().min(2),
+    description: Joi.string().max(3000),
     tags: Joi.array().max(100)
   });
 

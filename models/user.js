@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 
 // Create model
 
-// TODO Add lastConnection field
-
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -42,7 +40,9 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     maxlength: 255
   },
+  dreams: Array,
   strikeScore: Number,
+  lastConnection: Date,
   tags: Array,
   isAdmin: Boolean
 });

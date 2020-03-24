@@ -46,7 +46,8 @@ router.post("/", async (req, res) => {
       lastname: lastname,
       email: email,
       password: await bcrypt.hash(password, salt),
-      registerDate: moment.now()
+      registerDate: moment.now(),
+      dreams: []
     });
 
     await newUser.save();

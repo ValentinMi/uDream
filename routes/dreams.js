@@ -36,7 +36,7 @@ router.post("/", [auth], async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send("Bad request");
 
-    const { note, comment, author, tags } = req.body;
+    const { note, description, tags } = req.body;
 
     // Validate tags & save or update it
     tags.forEach(async tag => {
@@ -72,15 +72,19 @@ router.post("/", [auth], async (req, res) => {
     const newDream = new Dream({
       creationDate: moment.now(),
       note,
-      comment,
-      author,
+      description,
+      author: req.user._id,
       tags
     });
 
     await newDream.save();
 
-    // Add new tags to user's tags or increment existing tags
     const user = await User.findById(req.user._id);
+
+    // Add new dream to user dreams list
+    await user.updateOne({ dreams: [...user.dreams, newDream._id] });
+
+    // Add new tags to user's tags or increment existing tags
     const userTags = user.tags;
     let newUserTags = [...userTags];
 
