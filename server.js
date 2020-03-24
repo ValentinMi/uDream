@@ -6,4 +6,4 @@ require("./startup/env")();
 require("./startup/routes")(app);
 require("./startup/db")();
 
-app.listen(port || 5000, console.log(`Listening on port ${port}...`));
+app.listen(port, console.log(`Listening on port ${port}...`));
