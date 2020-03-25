@@ -1,0 +1,11 @@
+image: node:lts-stretch
+
+before_script:
+  - npm install
+
+services:
+  - mongo-express:latest
+
+test:
+  script:
+    - npm run test
