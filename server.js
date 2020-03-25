@@ -5,5 +5,11 @@ const port = process.env.PORT;
 require("./startup/env")();
 require("./startup/routes")(app);
 require("./startup/db")();
+require("./startup/validation")();
 
-app.listen(port, console.log(`Listening on port ${port}...`));
+const server = app.listen(
+  port || 5000,
+  console.log(`Listening on port ${port}...`)
+);
+
+module.exports = server;
