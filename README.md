@@ -12,7 +12,7 @@ Everyday you can: 1. Mark your dream quality 2. Save the description of your dre
 1. Clone the project
 2. `npm install` or `yarn install`
 3. `npm run dev` or `yarn dev` to dev
-4. `npm run test` or `yarn test` to lauch test
+4. `npm run test` or `yarn test` to launch test
 
 ## Front end mobile app
 
