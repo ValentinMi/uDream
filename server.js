@@ -6,6 +6,7 @@ require("./startup/env")();
 require("./startup/routes")(app);
 require("./startup/db")();
 require("./startup/validation")();
+require("./startup/cors")(app);
 
 const server = app.listen(
   port || 5000,
