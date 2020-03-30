@@ -1,23 +1,23 @@
 const { User } = require("../../models/user");
 const { Dream } = require("../../models/dream");
-const { Tag } = require("../../models/tag");
+const { Keyword } = require("../../models/keyword");
 const request = require("supertest");
 
-describe("tags", () => {
+describe("keywords", () => {
   beforeEach(() => {
     server = require("../../server");
   });
   afterEach(async () => {
     await User.deleteMany({});
     await Dream.deleteMany({});
-    await Tag.deleteMany({});
+    await Keyword.deleteMany({});
     await server.close();
   });
 
   let dream;
   let token;
   let user;
-  let tags;
+  let keywords;
 
   const postDream = () => {
     return request(server)
@@ -53,42 +53,43 @@ describe("tags", () => {
     token = res.text;
 
     dream = {
+      title: "Test",
       note: 5,
       description: "This is a dream description",
-      tags: ["Tag1", "Tag2"]
+      keywords: ["Keyword1", "Keyword2"]
     };
   });
 
-  it("should add dream tags to tags table", async () => {
+  it("should add dream keywords to keywords table", async () => {
     await postDream();
-    tags = await Tag.find();
-    expect(tags).toHaveLength(2);
+    keywords = await Keyword.find();
+    expect(keywords).toHaveLength(2);
   });
 
-  it("should increment frequency if tags already exists", async () => {
+  it("should increment frequency if keywords already exists", async () => {
     await postDream();
-    tags = await Tag.find();
-    expect(tags).toHaveLength(2);
-    expect(tags[0].frequency).toBe(1);
+    keywords = await Keyword.find();
+    expect(keywords).toHaveLength(2);
+    expect(keywords[0].frequency).toBe(1);
 
     await postDream();
-    tags = await Tag.find();
-    expect(tags[0].frequency).toBe(2);
+    keywords = await Keyword.find();
+    expect(keywords[0].frequency).toBe(2);
   });
 
-  it("should add dream tags to user's tags list", async () => {
+  it("should add dream keywords to user's keywords list", async () => {
     await postDream();
     user = await User.findOne({ username: "Tester" });
-    expect(user.tags).toHaveLength(2);
+    expect(user.keywords).toHaveLength(2);
   });
 
-  it("should increment user's tag frequency if it's already exist", async () => {
+  it("should increment user's keyword frequency if it's already exist", async () => {
     await postDream();
     user = await User.findOne({ username: "Tester" });
-    expect(user.tags[0].frequency).toBe(1);
+    expect(user.keywords[0].frequency).toBe(1);
 
     await postDream();
     user = await User.findOne({ username: "Tester" });
-    expect(user.tags[0].frequency).toBe(2);
+    expect(user.keywords[0].frequency).toBe(2);
   });
 });

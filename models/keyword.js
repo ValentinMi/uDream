@@ -1,7 +1,7 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
-const tagSchema = new mongoose.Schema({
+const keywordSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 1,
@@ -14,18 +14,18 @@ const tagSchema = new mongoose.Schema({
   }
 });
 
-const Tag = mongoose.model("Tag", tagSchema);
+const Keyword = mongoose.model("Keyword", keywordSchema);
 
 // Validation
 
-const validateTag = tag => {
+const validateKeyword = keyword => {
   const schema = Joi.string()
     .min(1)
     .max(50);
 
-  return schema.validate(tag);
+  return schema.validate(keyword);
 };
 
-exports.tagSchema = tagSchema;
-exports.Tag = Tag;
-exports.validateTag = validateTag;
+exports.keywordSchema = keywordSchema;
+exports.Keyword = Keyword;
+exports.validateKeyword = validateKeyword;

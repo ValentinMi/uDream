@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
   dreams: Array,
   strikeScore: Number,
   lastConnection: Date,
-  tags: Array,
+  keywords: Array,
   isAdmin: Boolean
 });
 
@@ -87,8 +87,7 @@ const validateUser = user => {
     password: Joi.string()
       .min(8)
       .max(255)
-      .required(),
-    registerDate: Joi.date()
+      .required()
   });
 
   return schema.validate(user);

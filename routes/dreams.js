@@ -1,5 +1,5 @@
 const { Dream, validate } = require("../models/dream");
-const { Tag, validateTag } = require("../models/tag");
+const { Keyword, validateKeyword } = require("../models/keyword");
 const { User } = require("../models/user");
 const auth = require("../middlewares/auth");
 const router = require("express").Router();
@@ -36,17 +36,17 @@ router.post("/", [auth], async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send("Bad request");
 
-    const { note, description, tags } = req.body;
+    const { note, description, keywords, title } = req.body;
 
-    // Validate tags & save or update it
-    tags.forEach(async tag => {
+    // Validate keywords & save or update it
+    keywords.forEach(async keyword => {
       try {
-        const { error } = validateTag(tag);
+        const { error } = validateKeyword(keyword);
         if (error) return res.status(400).send("Bad request");
 
-        // If tag exists => increment frequency
-        const existingTag = await Tag.findOneAndUpdate(
-          { name: tag },
+        // If keyword exists => increment frequency
+        const existingKeyword = await Keyword.findOneAndUpdate(
+          { name: keyword },
           {
             $inc: {
               frequency: 1
@@ -55,13 +55,13 @@ router.post("/", [auth], async (req, res) => {
           { new: true }
         );
 
-        // If it's a new tag => save
-        if (!existingTag) {
-          const newTag = new Tag({
-            name: tag,
+        // If it's a new keyword => save
+        if (!existingKeyword) {
+          const newKeyword = new Keyword({
+            name: keyword,
             frequency: 1
           });
-          await newTag.save();
+          await newKeyword.save();
         }
       } catch (error) {
         console.log(error.message);
@@ -71,13 +71,14 @@ router.post("/", [auth], async (req, res) => {
     // Create new dream
     const newDream = new Dream({
       creationDate: moment.now(),
+      title,
       note,
       description,
       author: {
         _id: req.user._id,
         username: req.user.username
       },
-      tags
+      keywords
     });
 
     await newDream.save();
@@ -88,21 +89,21 @@ router.post("/", [auth], async (req, res) => {
     // Add new dream to user dreams list
     await user.updateOne({ dreams: [...user.dreams, newDream._id] });
 
-    // Add new tags to user's tags or increment existing tags
-    const userTags = user.tags;
-    let newUserTags = [...userTags];
+    // Add new keywords to user's keywords or increment existing keywords
+    const userKeywords = user.keywords;
+    let newUserKeywords = [...userKeywords];
 
-    tags.forEach(tag => {
-      if (userTags.find(t => t.name === tag)) {
-        const toIncrement = newUserTags.find(t => t.name === tag);
+    keywords.forEach(keyword => {
+      if (userKeywords.find(t => t.name == keyword)) {
+        const toIncrement = newUserKeywords.find(t => t.name == keyword);
         // Increment
-        newUserTags[newUserTags.indexOf(toIncrement)].frequency++;
+        newUserKeywords[newUserKeywords.indexOf(toIncrement)].frequency++;
         // Or push in if new
-      } else newUserTags.push({ name: tag, frequency: 1 });
+      } else newUserKeywords.push({ name: keyword, frequency: 1 });
     });
 
-    // Save user's tags changes
-    await user.updateOne({ tags: newUserTags });
+    // Save user's keywords changes
+    await user.updateOne({ keywords: newUserKeywords });
 
     res.send(newDream);
   } catch (error) {

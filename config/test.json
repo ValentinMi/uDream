@@ -1,5 +1,5 @@
 {
-  "db": "mongodb://localhost:27017/uDreamt_test",
+  "db": "mongodb://localhost:27017/uDream_test",
   "authRequired": true,
   "jwtPrivateKey": "unsecureKey"
 }

@@ -49,9 +49,10 @@ describe("/dreams route", () => {
     token = res.text;
 
     dream = {
+      title: "Test",
       note: 5,
       description: "This is a dream description",
-      tags: ["Tag1", "Tag2"]
+      keywords: ["Keywords1", "Keywords2"]
     };
   });
 
@@ -112,10 +113,10 @@ describe("/dreams route", () => {
     expect(res.status).toBe(400);
   });
 
-  // Tags
+  // Keywords
 
-  it("should return 400 if tags is not an array", async () => {
-    dream.tags = "";
+  it("should return 400 if keywords is not an array", async () => {
+    dream.keywords = "";
     const res = await exec();
     expect(res.status).toBe(400);
   });

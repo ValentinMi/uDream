@@ -1,6 +1,6 @@
 const { User } = require("../../models/user");
 const { Dream } = require("../../models/dream");
-const { Tag } = require("../../models/tag");
+const { Keyword } = require("../../models/keyword");
 const request = require("supertest");
 
 describe("Auth middleware", () => {
@@ -9,7 +9,7 @@ describe("Auth middleware", () => {
   });
   afterEach(async () => {
     await Dream.deleteMany({});
-    await Tag.deleteMany({});
+    await Keyword.deleteMany({});
     await User.deleteMany({});
     await server.close();
   });
@@ -21,9 +21,10 @@ describe("Auth middleware", () => {
       .post("/api/dreams")
       .set("uDream-auth-token", token)
       .send({
+        title: "Test",
         note: 5,
         description: "Dream description",
-        tags: ["tag1", "tag2"]
+        keywords: ["keyword1", "keyword2"]
       });
   };
 
