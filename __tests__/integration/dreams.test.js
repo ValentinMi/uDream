@@ -1,5 +1,6 @@
 const { Dream } = require("../../models/dream");
 const { User } = require("../../models/user");
+const { Keyword } = require("../../models/keyword");
 const request = require("supertest");
 
 describe("/dreams route", () => {
@@ -8,6 +9,7 @@ describe("/dreams route", () => {
   });
   afterEach(async () => {
     await Dream.deleteMany({});
+    await Keyword.deleteMany({});
     await server.close();
   });
 
@@ -52,7 +54,7 @@ describe("/dreams route", () => {
       title: "Test",
       note: 5,
       description: "This is a dream description",
-      keywords: ["Keywords1", "Keywords2"]
+      keywords: ["Keyword1", "Keyword2"]
     };
   });
 
