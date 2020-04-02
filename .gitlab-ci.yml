@@ -1,4 +1,4 @@
-image: node:lts-stretch
+image: node:latest
 
 before_script:
   - npm install
@@ -6,6 +6,10 @@ before_script:
 services:
   - mongo-express:latest
 
-test:
+cache:
+  paths:
+    - node_modules/
+
+tests:
   script:
     - npm run test
