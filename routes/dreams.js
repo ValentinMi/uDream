@@ -29,6 +29,18 @@ router.get("/", [auth], async (req, res) => {
   }
 });
 
+// GET -- Get user's dreams
+router.get("/userDreams/:userId", [auth], async (req, res) => {
+  try {
+    const userDreams = await Dream.find({ "author._id": req.params.userId });
+    if (!userDreams) return res.status(404).send("Dreams not found");
+
+    res.send(userDreams);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // POST -- Post new dream
 router.post("/", [auth], async (req, res) => {
   try {
