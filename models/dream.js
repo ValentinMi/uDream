@@ -9,6 +9,10 @@ const Dream = mongoose.model(
       type: Date,
       required: true
     },
+    date: {
+      type: Date,
+      required: true
+    },
     title: {
       type: String,
       minlength: 2,
@@ -47,6 +51,7 @@ const Dream = mongoose.model(
 // Validation
 const validateDream = dream => {
   const schema = Joi.object({
+    date: Joi.date().required(),
     title: Joi.string()
       .min(2)
       .max(255)

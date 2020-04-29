@@ -32,8 +32,12 @@ router.get("/", [auth], async (req, res) => {
 // GET -- Get user's dreams
 router.get("/userDreams/:userId", [auth], async (req, res) => {
   try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).send("User not found");
+
     const userDreams = await Dream.find({ "author._id": req.params.userId });
-    if (!userDreams) return res.status(404).send("Dreams not found");
+    if (!userDreams || userDreams.length === 0)
+      return res.status(404).send("Dreams not found");
 
     res.send(userDreams);
   } catch (error) {
@@ -48,7 +52,7 @@ router.post("/", [auth], async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send("Bad request");
 
-    const { note, description, keywords, title } = req.body;
+    const { note, description, keywords, title, date } = req.body;
 
     // Validate keywords & save or update it
     keywords.forEach(async keyword => {
@@ -82,6 +86,7 @@ router.post("/", [auth], async (req, res) => {
 
     // Create new dream
     const newDream = new Dream({
+      date,
       creationDate: moment.now(),
       title,
       note,

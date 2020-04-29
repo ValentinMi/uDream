@@ -24,24 +24,20 @@ describe("/dreams route", () => {
   };
 
   const registerUser = () => {
-    return request(server)
-      .post("/api/users")
-      .send({
-        username: "Tester",
-        firstname: "Tester",
-        lastname: "Tester",
-        email: "test@test.com",
-        password: "passwordTest"
-      });
+    return request(server).post("/api/users").send({
+      username: "Tester",
+      firstname: "Tester",
+      lastname: "Tester",
+      email: "test@test.com",
+      password: "passwordTest"
+    });
   };
 
   const getToken = () => {
-    return request(server)
-      .post("/api/auth")
-      .send({
-        email: "test@test.com",
-        password: "passwordTest"
-      });
+    return request(server).post("/api/auth").send({
+      email: "test@test.com",
+      password: "passwordTest"
+    });
   };
 
   beforeEach(async () => {
@@ -54,7 +50,8 @@ describe("/dreams route", () => {
       title: "Test",
       note: 5,
       description: "This is a dream description",
-      keywords: ["Keyword1", "Keyword2"]
+      keywords: ["Keyword1", "Keyword2"],
+      date: new Date().toJSON()
     };
   });
 
