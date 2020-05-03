@@ -7,9 +7,7 @@ const moment = require("moment");
 
 // GET ALL USERS
 router.get("/", async (req, res) => {
-  const users = await User.find()
-    .select("- password")
-    .sort("score");
+  const users = await User.find().select("- password").sort("score");
 
   res.send(users);
 });
@@ -63,6 +61,8 @@ router.post("/", async (req, res) => {
   } catch (error) {
     res.send(error.message);
   }
+
+  res.send("Registered");
 });
 
 // UPDATE USER
